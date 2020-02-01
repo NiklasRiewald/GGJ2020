@@ -22,6 +22,7 @@ var new_paragraphs = [
 	"fourth new paragraph",
 	"fifth new paragraph",
 	"sixth new paragraph",
+	"third new paragraph"
 ]
 
 var correct_solution = [

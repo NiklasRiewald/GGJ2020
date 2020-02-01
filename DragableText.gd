@@ -73,7 +73,7 @@ func _process(delta):
 			)
 		hadActiveDragLastFrame = true
 	else:
-		if hadActiveDragLastFrame:
+		if hadActiveDragLastFrame and not(logs.isEndText and get_node("RichTextLabel") == newParagraph):
 			set_global_position(originalPosition)
 			print(logs.paragraphs)
 			var textToInsert = get_node("RichTextLabel").bbcode_text
@@ -127,12 +127,20 @@ func _on_Area2D_input_event(viewport, event, shape_idx):
 func _end_game():
 	dragMouse=false
 	popUp.set_title("")
-	if _correct_solution():
+	var matches = _count_matches()
+	if matches == len(logs.paragraphs):
 		popUp.set_text("Congratulations! You figured it out correctly!")
 	else:
-		popUp.set_text("Sorry, but the story is still somewhat out of order.")
+		popUp.set_text("The story is still somewhat out of order: " + str(matches) + " out of " + str(len(logs.paragraphs)) + " paragraphs are matching.")
 	popUp.popup_centered()
-	print("end_game!")
 	
-func _correct_solution():
-	return logs.paragraphs == logs.correct_solution
+func _count_matches():
+	var matches = 0
+	var i=0
+	for paragraph in logs.paragraphs:
+		if paragraph == logs.correct_solution[i]:
+			matches +=1
+		else:
+			print(paragraph)
+		i+=1
+	return matches
