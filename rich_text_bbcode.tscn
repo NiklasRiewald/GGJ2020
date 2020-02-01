@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://rich_text_bbcode.gd" type="Script" id=1]
 [ext_resource path="res://Titillium-BoldItalic.otf" type="DynamicFontData" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://Log.gd" type="Script" id=9]
 [ext_resource path="res://separator.png" type="Texture" id=10]
 [ext_resource path="res://document.jpg" type="Texture" id=11]
+[ext_resource path="res://awesome_theme.tres" type="Theme" id=12]
 
 [sub_resource type="DynamicFont" id=1]
 size = 20
@@ -63,13 +64,14 @@ position = Vector2( 154.051, -149.757 )
 [node name="Log" type="RichTextLabel" parent="Document"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 251.825
-margin_top = -14.4658
-margin_right = 551.825
-margin_bottom = 185.534
+margin_left = 252.0
+margin_top = -14.0
+margin_right = 355.0
+margin_bottom = 5.0
 mouse_filter = 2
 size_flags_horizontal = 2
 size_flags_vertical = 2
+theme = ExtResource( 12 )
 custom_fonts/bold_italics_font = SubResource( 1 )
 custom_fonts/italics_font = SubResource( 2 )
 custom_fonts/bold_font = SubResource( 3 )
@@ -96,6 +98,7 @@ script = ExtResource( 8 )
 margin_right = 280.0
 margin_bottom = 80.0
 mouse_filter = 2
+theme = ExtResource( 12 )
 custom_colors/default_color = Color( 0.541176, 0.270588, 0.270588, 1 )
 scroll_active = false
 __meta__ = {
@@ -115,6 +118,7 @@ script = ExtResource( 8 )
 margin_right = 280.0
 margin_bottom = 80.0
 mouse_filter = 2
+theme = ExtResource( 12 )
 custom_colors/default_color = Color( 0.541176, 0.270588, 0.270588, 1 )
 scroll_active = false
 __meta__ = {
@@ -134,6 +138,7 @@ script = ExtResource( 8 )
 margin_right = 280.0
 margin_bottom = 80.0
 mouse_filter = 2
+theme = ExtResource( 12 )
 custom_colors/default_color = Color( 0.541176, 0.270588, 0.270588, 1 )
 scroll_active = false
 __meta__ = {
@@ -180,6 +185,7 @@ script = ExtResource( 8 )
 margin_right = 280.0
 margin_bottom = 80.0
 mouse_filter = 2
+theme = ExtResource( 12 )
 custom_colors/default_color = Color( 0.541176, 0.270588, 0.270588, 1 )
 text = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum."
 scroll_active = false
@@ -191,6 +197,13 @@ __meta__ = {
 position = Vector2( 139.97, 39.4119 )
 z_index = 12
 shape = SubResource( 5 )
+
+[node name="AcceptDialog" type="AcceptDialog" parent="Document"]
+margin_left = -154.051
+margin_top = 149.757
+margin_right = -46.051
+margin_bottom = 207.757
+window_title = "Warnung!"
 [connection signal="meta_clicked" from="Document/Log" to="." method="_on_RichTextLabel_meta_clicked"]
 [connection signal="input_event" from="Document/Text1" to="Document/Text1" method="_on_Area2D_input_event"]
 [connection signal="input_event" from="Document/Text2" to="Document/Text2" method="_on_Area2D_input_event"]

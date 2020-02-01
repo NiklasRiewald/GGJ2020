@@ -20,13 +20,9 @@ var originalPosition
 
 var originalSiteIndex = 0
 
-var currentPage = 0
-
-var end_text = "You now have all parts of the story. Click here if you think you have figured out the correct order!"
-
 var logs
 
-var isEndText = false
+var popUp: AcceptDialog
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -42,6 +38,7 @@ func _ready():
 		get_node("../Text3/RichTextLabel")
 	]
 	newParagraph = get_node("../TextNew/RichTextLabel")
+	popUp = get_node("../AcceptDialog")
 	logs = get_node("../Log")
 	
 	numberSeparators=len(separators)
@@ -57,8 +54,7 @@ func _ready():
 		
 	originalPosition = get_global_position()
 	
-	_push_new_update()
-	_update_paragraphs()
+	logs._update_paragraphs()
 
 
 func _process(delta):
@@ -66,7 +62,7 @@ func _process(delta):
 	var currentMouseY = get_global_mouse_position().y
 	
 	if dragMouse:
-		if isEndText:
+		if logs.isEndText and get_node("RichTextLabel") == newParagraph:
 			_end_game()
 		
 		set_global_position(
@@ -81,25 +77,20 @@ func _process(delta):
 			set_global_position(originalPosition)
 			print(logs.paragraphs)
 			var textToInsert = get_node("RichTextLabel").bbcode_text
-			var index_to_insert = currentPage * (numberSeparators -1) + active_text_index
-			if isNewParagraph:
-				if len(logs.paragraphs) % (numberSeparators -1) == 1 and active_text_index == 2:
-					logs.paragraphs.insert(
-						index_to_insert -1,
-						""
-					)
+			var index_to_insert = logs.current_position * (numberSeparators -1) + active_text_index
+			if isNewParagraph and len(logs.paragraphs) >= index_to_insert:
 				logs.paragraphs.insert(
 					index_to_insert,
 					textToInsert
 				)
-				_push_new_update()
+				logs._push_new_update()
 			else:
-				var textToSwitch = logs.paragraphs[index_to_insert]
-				logs.paragraphs[index_to_insert] = textToInsert
-				var index_to_switch_from = currentPage * (numberSeparators -1) + originalSiteIndex
-				print(index_to_switch_from)
-				logs.paragraphs[index_to_switch_from] = textToSwitch
-			_update_paragraphs()
+				if len(logs.paragraphs) > index_to_insert:
+					var textToSwitch = logs.paragraphs[index_to_insert]
+					logs.paragraphs[index_to_insert] = textToInsert
+					var index_to_switch_from = logs.current_position * (numberSeparators -1) + originalSiteIndex
+					logs.paragraphs[index_to_switch_from] = textToSwitch
+			logs._update_paragraphs()
 				
 		hadActiveDragLastFrame = false
 		
@@ -117,14 +108,7 @@ func _process(delta):
 	lastMouseX = get_global_mouse_position().x
 	lastMouseY = get_global_mouse_position().y
 	
-func _update_paragraphs():
-	var start_index = currentPage * (numberSeparators - 1)
-	var end_index = start_index + numberSeparators - 1
-	var j = 0
-	for i in range(start_index, end_index):
-		if i < len(logs.paragraphs):
-			texts[j].set_bbcode(logs.paragraphs[i])
-			j +=1
+
 
 func _toggle_separator(separator_index):
 	for separator in separators:
@@ -139,13 +123,16 @@ func _on_Area2D_input_event(viewport, event, shape_idx):
 		else:
 			dragMouse=false
 	pass
-
-func _push_new_update():
-	if len(logs.new_paragraphs) > 0:
-		newParagraph.set_bbcode(logs.new_paragraphs.pop_front())
-	else:
-		newParagraph.set_bbcode(end_text)
-		isEndText = true
 		
 func _end_game():
+	dragMouse=false
+	popUp.set_title("")
+	if _correct_solution():
+		popUp.set_text("Congratulations! You figured it out correctly!")
+	else:
+		popUp.set_text("Sorry, but the story is still somewhat out of order.")
+	popUp.popup_centered()
 	print("end_game!")
+	
+func _correct_solution():
+	return logs.paragraphs == logs.correct_solution
