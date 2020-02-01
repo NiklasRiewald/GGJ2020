@@ -20,7 +20,19 @@ var texts = [
 	"[b][u]Page 6[/u][/b]",
 ]
 
-var paragraphs = []
+var paragraphs = [
+	"first sentence",
+]
+
+var new_paragraphs = [
+	"first new paragraph",
+	"seconds new paragraph",
+	"third new paragraph",
+	"fourth new paragraph",
+	"fifth new paragraph",
+	"sixth new paragraph",
+	"seventh new paragraph",
+]
 
 var current_position = 0
 

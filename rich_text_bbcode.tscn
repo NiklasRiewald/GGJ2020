@@ -97,7 +97,6 @@ margin_right = 280.0
 margin_bottom = 80.0
 mouse_filter = 2
 custom_colors/default_color = Color( 0.541176, 0.270588, 0.270588, 1 )
-text = "adsfasdfasdgsdf"
 scroll_active = false
 __meta__ = {
 "_edit_use_anchors_": false
@@ -117,7 +116,6 @@ margin_right = 280.0
 margin_bottom = 80.0
 mouse_filter = 2
 custom_colors/default_color = Color( 0.541176, 0.270588, 0.270588, 1 )
-text = "grthnfnfgmhjm agnersn nsgjkn skjgn snhjskn "
 scroll_active = false
 __meta__ = {
 "_edit_use_anchors_": false
@@ -137,7 +135,6 @@ margin_right = 280.0
 margin_bottom = 80.0
 mouse_filter = 2
 custom_colors/default_color = Color( 0.541176, 0.270588, 0.270588, 1 )
-text = "nasnf jerng ajerng jkne jkgerngkjerng jenjn sdf fd srt "
 scroll_active = false
 __meta__ = {
 "_edit_use_anchors_": false
