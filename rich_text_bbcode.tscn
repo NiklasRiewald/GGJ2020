@@ -1,37 +1,23 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://rich_text_bbcode.gd" type="Script" id=1]
-[ext_resource path="res://Titillium-BoldItalic.otf" type="DynamicFontData" id=2]
-[ext_resource path="res://Titillium-RegularItalic.otf" type="DynamicFontData" id=3]
-[ext_resource path="res://Titillium-Bold.otf" type="DynamicFontData" id=4]
-[ext_resource path="res://Titillium-Regular.otf" type="DynamicFontData" id=5]
-[ext_resource path="res://art_deco.jpg" type="Texture" id=6]
-[ext_resource path="res://box.png" type="Texture" id=7]
+[ext_resource path="res://SATURDAY.png" type="Texture" id=2]
+[ext_resource path="res://bg.png" type="Texture" id=6]
+[ext_resource path="res://NewPiece.png" type="Texture" id=7]
 [ext_resource path="res://DragableText.gd" type="Script" id=8]
 [ext_resource path="res://Log.gd" type="Script" id=9]
 [ext_resource path="res://separator.png" type="Texture" id=10]
-[ext_resource path="res://document.jpg" type="Texture" id=11]
+[ext_resource path="res://document.tscn" type="PackedScene" id=11]
 [ext_resource path="res://awesome_theme.tres" type="Theme" id=12]
 [ext_resource path="res://RealDraggingText.gd" type="Script" id=13]
-
-[sub_resource type="DynamicFont" id=1]
-size = 20
-font_data = ExtResource( 2 )
-
-[sub_resource type="DynamicFont" id=2]
-size = 20
-font_data = ExtResource( 3 )
-
-[sub_resource type="DynamicFont" id=3]
-size = 20
-font_data = ExtResource( 4 )
-
-[sub_resource type="DynamicFont" id=4]
-size = 20
-font_data = ExtResource( 5 )
+[ext_resource path="res://bell.wav" type="AudioStream" id=14]
+[ext_resource path="res://background.ogg" type="AudioStream" id=15]
+[ext_resource path="res://ripping.wav" type="AudioStream" id=16]
+[ext_resource path="res://turnpage.wav" type="AudioStream" id=17]
+[ext_resource path="res://fail.wav" type="AudioStream" id=18]
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 148.72, 45.9892 )
+extents = Vector2( 324.253, 57.746 )
 
 [node name="Panel" type="Panel"]
 anchor_right = 1.0
@@ -50,33 +36,30 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 452.708, 327.883 )
-scale = Vector2( 1.48611, 1.00808 )
-z_index = -3
-texture = ExtResource( 6 )
-
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 476.678, 316.247 )
 
 [node name="Document" type="Area2D" parent="."]
-position = Vector2( 154.051, -149.757 )
+position = Vector2( 149.423, -45.0895 )
+z_index = -2
+
+[node name="NewPiece" type="Sprite" parent="Document"]
+position = Vector2( 406.562, 763.023 )
+scale = Vector2( 1.27197, 1.44305 )
+z_index = -1
+texture = ExtResource( 7 )
 
 [node name="Log" type="RichTextLabel" parent="Document"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 252.0
-margin_top = -14.0
-margin_right = 355.0
-margin_bottom = 5.0
+margin_left = 705.76
+margin_top = 35.5971
+margin_right = 808.76
+margin_bottom = 54.5971
 mouse_filter = 2
 size_flags_horizontal = 2
 size_flags_vertical = 2
 theme = ExtResource( 12 )
-custom_fonts/bold_italics_font = SubResource( 1 )
-custom_fonts/italics_font = SubResource( 2 )
-custom_fonts/bold_font = SubResource( 3 )
-custom_fonts/normal_font = SubResource( 4 )
 bbcode_enabled = true
 bbcode_text = "adsf"
 text = "adsf"
@@ -87,22 +70,25 @@ __meta__ = {
 }
 
 [node name="Text1" type="Area2D" parent="Document"]
-position = Vector2( 149.58, 76.017 )
+position = Vector2( 149.58, 99.5756 )
 script = ExtResource( 8 )
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Document/Text1"]
-margin_right = 280.0
-margin_bottom = 80.0
+margin_left = -76.0
+margin_top = -12.0
+margin_right = 570.0
+margin_bottom = 104.0
 mouse_filter = 2
 theme = ExtResource( 12 )
-custom_colors/default_color = Color( 0.541176, 0.270588, 0.270588, 1 )
+custom_colors/default_color = Color( 0, 0, 0, 1 )
+bbcode_enabled = true
 scroll_active = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Document/Text1"]
-position = Vector2( 139.97, 39.4119 )
+position = Vector2( 247.89, 44.4863 )
 z_index = 12
 shape = SubResource( 5 )
 
@@ -111,66 +97,65 @@ position = Vector2( 149.58, 309.818 )
 script = ExtResource( 8 )
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Document/Text2"]
-margin_right = 280.0
-margin_bottom = 80.0
+margin_left = -78.0
+margin_top = -19.0
+margin_right = 570.0
+margin_bottom = 91.0
 mouse_filter = 2
 theme = ExtResource( 12 )
-custom_colors/default_color = Color( 0.541176, 0.270588, 0.270588, 1 )
+custom_colors/default_color = Color( 0, 0, 0, 1 )
+bbcode_enabled = true
 scroll_active = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Document/Text2"]
-position = Vector2( 139.97, 39.4119 )
+position = Vector2( 244.973, 36.8747 )
 z_index = 12
 shape = SubResource( 5 )
 
 [node name="Text3" type="Area2D" parent="Document"]
-position = Vector2( 149.58, 500.233 )
+position = Vector2( 151.837, 494.343 )
 script = ExtResource( 8 )
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Document/Text3"]
-margin_right = 280.0
-margin_bottom = 80.0
+margin_left = -80.0
+margin_top = -15.0
+margin_right = 563.0
+margin_bottom = 103.0
 mouse_filter = 2
 theme = ExtResource( 12 )
-custom_colors/default_color = Color( 0.541176, 0.270588, 0.270588, 1 )
+custom_colors/default_color = Color( 0, 0, 0, 1 )
+bbcode_enabled = true
 scroll_active = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Document/Text3"]
-position = Vector2( 139.97, 39.4119 )
+position = Vector2( 242.056, 41.9491 )
 z_index = 12
 shape = SubResource( 5 )
 
 [node name="separator1" type="Sprite" parent="Document"]
-position = Vector2( 288.052, 35.0096 )
-scale = Vector2( 0.273303, 0.496746 )
+position = Vector2( 343.47, 42.6211 )
 texture = ExtResource( 10 )
 
 [node name="separator2" type="Sprite" parent="Document"]
-position = Vector2( 295.214, 246.829 )
-scale = Vector2( 0.273303, 0.496746 )
+position = Vector2( 341.882, 246.829 )
 texture = ExtResource( 10 )
 
+[node name="document" parent="Document" instance=ExtResource( 11 )]
+position = Vector2( 436.289, 310.926 )
+
 [node name="separator3" type="Sprite" parent="Document"]
-position = Vector2( 302.377, 443.073 )
-scale = Vector2( 0.273303, 0.496746 )
+position = Vector2( 349.045, 443.073 )
 texture = ExtResource( 10 )
 
 [node name="separator4" type="Sprite" parent="Document"]
-position = Vector2( 295.688, 617.512 )
-scale = Vector2( 0.273303, 0.496746 )
+position = Vector2( 345.273, 625.124 )
 texture = ExtResource( 10 )
-
-[node name="document" type="Sprite" parent="Document"]
-position = Vector2( 286.101, 463.325 )
-scale = Vector2( 1.17775, 1.58333 )
-z_index = -2
-texture = ExtResource( 11 )
 
 [node name="TextNew" type="Area2D" parent="Document"]
 position = Vector2( 156.424, 751.346 )
@@ -178,19 +163,21 @@ scale = Vector2( 1, 1 )
 script = ExtResource( 8 )
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Document/TextNew"]
-margin_right = 280.0
-margin_bottom = 80.0
+margin_left = -84.0
+margin_top = -39.0
+margin_right = 558.0
+margin_bottom = 73.0
 mouse_filter = 2
 theme = ExtResource( 12 )
-custom_colors/default_color = Color( 0.541176, 0.270588, 0.270588, 1 )
-text = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum."
+custom_colors/default_color = Color( 0, 0, 0, 1 )
+bbcode_enabled = true
 scroll_active = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Document/TextNew"]
-position = Vector2( 139.97, 39.4119 )
+position = Vector2( 236.926, 14.1104 )
 z_index = 12
 shape = SubResource( 5 )
 
@@ -202,24 +189,47 @@ margin_bottom = 207.757
 window_title = "Warnung!"
 
 [node name="DraggingText" type="RichTextLabel" parent="Document"]
-margin_left = 933.631
-margin_top = 533.022
-margin_right = 1213.63
-margin_bottom = 613.022
+margin_left = 68.0
+margin_top = 273.0
+margin_right = 512.0
+margin_bottom = 420.0
 mouse_filter = 2
 theme = ExtResource( 12 )
-custom_colors/default_color = Color( 0.541176, 0.270588, 0.270588, 1 )
+custom_colors/default_color = Color( 0, 0, 0, 1 )
 scroll_active = false
 script = ExtResource( 13 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="box" type="Sprite" parent="Document"]
-position = Vector2( 297.838, 789.919 )
-scale = Vector2( 0.243538, 0.198654 )
-z_index = -2
-texture = ExtResource( 7 )
+[node name="bell" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 14 )
+
+[node name="fail" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 18 )
+
+[node name="ripping" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 16 )
+
+[node name="background" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 15 )
+volume_db = -6.455
+autoplay = true
+
+[node name="turning" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 17 )
+
+[node name="SATURDAY" type="Sprite" parent="."]
+position = Vector2( 483.064, 316.539 )
+scale = Vector2( 1.08248, 1.10959 )
+z_index = -9
+texture = ExtResource( 2 )
+
+[node name="bg" type="Sprite" parent="."]
+position = Vector2( 484.308, 317.409 )
+scale = Vector2( 1.09338, 1.001 )
+z_index = -10
+texture = ExtResource( 6 )
 [connection signal="meta_clicked" from="Document/Log" to="." method="_on_RichTextLabel_meta_clicked"]
 [connection signal="input_event" from="Document/Text1" to="Document/Text1" method="_on_Area2D_input_event"]
 [connection signal="input_event" from="Document/Text2" to="Document/Text2" method="_on_Area2D_input_event"]

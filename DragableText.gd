@@ -124,27 +124,24 @@ func _insert_paragraph():
 				index_to_insert,
 				paragraphClone
 			)
+			get_node("../../ripping").play()
 			logs._push_new_update()
 		else:
 			if len(logs.paragraphs) > index_to_insert:
-				print("before insertion:")
-				print(logs.paragraphs)
+
 				logs.paragraphs.insert(
 					index_to_insert,
 					paragraphClone
 				)
-				print("after insertion:")
-				print(logs.paragraphs)
+				get_node("../../ripping").play()
+
 				var index_to_remove = cloneIndex
 				if index_to_remove >= index_to_insert:
 					index_to_remove += 1
 					
-				print("index to remove:")
-				print(index_to_remove)
 				logs.paragraphs.remove(index_to_remove)
-				print("after removal:")
-				print(logs.paragraphs)
 			else:
+				get_node("../../fail").play()
 				#restore original text here:
 				if not _is_new_paragraph():
 					logs.paragraphs[cloneIndex] = paragraphClone
@@ -177,9 +174,11 @@ func _input(event):
 	
 func _end_game():
 	dragMouse=false
+	draggableText.set_bbcode("")
 	popUp.set_title("")
 	var matches = _count_matches()
 	if matches == len(logs.paragraphs):
+		get_node("../../bell").play()
 		popUp.set_text("Congratulations! You figured it out correctly!")
 	else:
 		popUp.set_text("The story is still somewhat out of order: " + str(matches) + " out of " + str(len(logs.paragraphs)) + " paragraphs are matching.")
