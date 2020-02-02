@@ -67,7 +67,7 @@ func _process(delta):
 	var currentMouseX = get_global_mouse_position().x
 	var currentMouseY = get_global_mouse_position().y
 	var myText = get_node("RichTextLabel").bbcode_text
-	if dragMouse and myText != "":
+	if dragMouse and (myText != "" or draggableText.bbcode_text != ""):
 		if not hadActiveDragLastFrame:
 			#create draggable text:
 			paragraphClone = get_node("RichTextLabel").bbcode_text
@@ -126,14 +126,20 @@ func _insert_paragraph():
 			logs._push_new_update()
 		else:
 			if len(logs.paragraphs) > index_to_insert:
+				print("before insertion:")
+				print(logs.paragraphs)
 				logs.paragraphs.insert(
 					index_to_insert,
 					paragraphClone
 				)
+				print("after insertion:")
+				print(logs.paragraphs)
 				var index_to_remove = logs.current_position * (numberSeparators -1) + originalSiteIndex
-				if index_to_remove > index_to_insert:
+				if index_to_remove >= index_to_insert:
 					index_to_remove += 1
-				#logs.paragraphs.remove(index_to_remove) ????
+				logs.paragraphs.remove(index_to_remove)
+				print("after removal:")
+				print(logs.paragraphs)
 			else:
 				#restore original text here:
 				logs.paragraphs[cloneIndex] = paragraphClone
@@ -152,7 +158,7 @@ func _toggle_separator(separator_index):
 	separators[separator_index].modulate = Color(0, 0, 1)
 
 func _on_Area2D_input_event(viewport, event, shape_idx):
-	if event is InputEventMouseButton:
+	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT:
 		if event.is_pressed():
 			dragMouse=true
 		#else:

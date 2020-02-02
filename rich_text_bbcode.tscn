@@ -86,11 +86,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ParagraphNew" type="Sprite" parent="Document"]
-position = Vector2( 296.254, 791.001 )
-scale = Vector2( 0.19182, 0.174751 )
-texture = ExtResource( 7 )
-
 [node name="Text1" type="Area2D" parent="Document"]
 position = Vector2( 149.58, 76.017 )
 script = ExtResource( 8 )
@@ -219,6 +214,12 @@ script = ExtResource( 13 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="box" type="Sprite" parent="Document"]
+position = Vector2( 297.838, 789.919 )
+scale = Vector2( 0.243538, 0.198654 )
+z_index = -2
+texture = ExtResource( 7 )
 [connection signal="meta_clicked" from="Document/Log" to="." method="_on_RichTextLabel_meta_clicked"]
 [connection signal="input_event" from="Document/Text1" to="Document/Text1" method="_on_Area2D_input_event"]
 [connection signal="input_event" from="Document/Text2" to="Document/Text2" method="_on_Area2D_input_event"]

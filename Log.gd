@@ -55,6 +55,7 @@ func _ready():
 	
 	newParagraph = get_node("../TextNew/RichTextLabel")
 	_push_new_update()
+	_update_paragraphs()
 
 func _input(event):
 	if event is InputEventMouseButton:
@@ -80,7 +81,7 @@ func _update_paragraphs():
 	for i in range(start_index, end_index):
 		if i < len(paragraphs):
 			texts[j].set_bbcode(paragraphs[i])
-			j +=1
+			j += 1
 			
 func _push_new_update():
 	if len(new_paragraphs) > 0:

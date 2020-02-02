@@ -1,5 +1,8 @@
 extends RichTextLabel
 
+var separators = []
+var numberSeparators = 0
+
 var lastMouseX;
 var lastMouseY;
 
