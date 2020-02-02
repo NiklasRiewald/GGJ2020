@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://rich_text_bbcode.gd" type="Script" id=1]
 [ext_resource path="res://Titillium-BoldItalic.otf" type="DynamicFontData" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://separator.png" type="Texture" id=10]
 [ext_resource path="res://document.jpg" type="Texture" id=11]
 [ext_resource path="res://awesome_theme.tres" type="Theme" id=12]
+[ext_resource path="res://RealDraggingText.gd" type="Script" id=13]
 
 [sub_resource type="DynamicFont" id=1]
 size = 20
@@ -204,6 +205,20 @@ margin_top = 149.757
 margin_right = -46.051
 margin_bottom = 207.757
 window_title = "Warnung!"
+
+[node name="DraggingText" type="RichTextLabel" parent="Document"]
+margin_left = 933.631
+margin_top = 533.022
+margin_right = 1213.63
+margin_bottom = 613.022
+mouse_filter = 2
+theme = ExtResource( 12 )
+custom_colors/default_color = Color( 0.541176, 0.270588, 0.270588, 1 )
+scroll_active = false
+script = ExtResource( 13 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="meta_clicked" from="Document/Log" to="." method="_on_RichTextLabel_meta_clicked"]
 [connection signal="input_event" from="Document/Text1" to="Document/Text1" method="_on_Area2D_input_event"]
 [connection signal="input_event" from="Document/Text2" to="Document/Text2" method="_on_Area2D_input_event"]

@@ -20,9 +20,14 @@ var originalPosition
 
 var originalSiteIndex = 0
 
+var paragraphClone = ""
+var cloneIndex
+
 var logs
 
 var popUp: AcceptDialog
+
+var draggableText
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -38,6 +43,7 @@ func _ready():
 		get_node("../Text3/RichTextLabel")
 	]
 	newParagraph = get_node("../TextNew/RichTextLabel")
+	draggableText = get_node("../DraggingText")
 	popUp = get_node("../AcceptDialog")
 	logs = get_node("../Log")
 	
@@ -60,41 +66,45 @@ func _ready():
 func _process(delta):
 	var currentMouseX = get_global_mouse_position().x
 	var currentMouseY = get_global_mouse_position().y
-	
-	if dragMouse:
+	var myText = get_node("RichTextLabel").bbcode_text
+	if dragMouse and myText != "":
+		if not hadActiveDragLastFrame:
+			#create draggable text:
+			paragraphClone = get_node("RichTextLabel").bbcode_text
+			cloneIndex = _get_paragraph_index()
+			
+			if not _is_new_paragraph():
+				get_node("RichTextLabel").set_bbcode("")
+				var index_to_remove = _get_paragraph_index()
+				logs.paragraphs[index_to_remove] = ""
+
+			draggableText.set_global_position(get_global_position())
+			draggableText.set_bbcode(paragraphClone)
 		if logs.isEndText and get_node("RichTextLabel") == newParagraph:
 			_end_game()
 		
-		set_global_position(
+		draggableText.set_global_position(
 			Vector2(
-				get_global_position().x + currentMouseX - lastMouseX,
-				get_global_position().y + currentMouseY - lastMouseY
+				draggableText.get_global_position().x + currentMouseX - lastMouseX,
+				draggableText.get_global_position().y + currentMouseY - lastMouseY
 				)
 			)
 		hadActiveDragLastFrame = true
 	else:
-		if hadActiveDragLastFrame and not(logs.isEndText and get_node("RichTextLabel") == newParagraph):
-			set_global_position(originalPosition)
-			print(logs.paragraphs)
-			var textToInsert = get_node("RichTextLabel").bbcode_text
-			var index_to_insert = logs.current_position * (numberSeparators -1) + active_text_index
-			if isNewParagraph and len(logs.paragraphs) >= index_to_insert:
-				logs.paragraphs.insert(
-					index_to_insert,
-					textToInsert
-				)
-				logs._push_new_update()
-			else:
-				if len(logs.paragraphs) > index_to_insert:
-					var textToSwitch = logs.paragraphs[index_to_insert]
-					logs.paragraphs[index_to_insert] = textToInsert
-					var index_to_switch_from = logs.current_position * (numberSeparators -1) + originalSiteIndex
-					logs.paragraphs[index_to_switch_from] = textToSwitch
-			logs._update_paragraphs()
-				
+		_insert_paragraph()		
 		hadActiveDragLastFrame = false
 		
-	
+	_toggle_separators()
+		
+	lastMouseX = get_global_mouse_position().x
+	lastMouseY = get_global_mouse_position().y
+
+func _get_paragraph_index():
+	return logs.current_position * (numberSeparators -1) + originalSiteIndex
+
+func _toggle_separators():
+	var currentMouseX = get_global_mouse_position().x
+	var currentMouseY = get_global_mouse_position().y
 	for i in range(0, numberSeparators):
 		var minY = separators[i].get_global_position().y
 		var maxY = 86856527
@@ -103,12 +113,37 @@ func _process(delta):
 		
 		if currentMouseY >= minY and currentMouseY <= maxY:
 			_toggle_separator(i)
-		
-		
-	lastMouseX = get_global_mouse_position().x
-	lastMouseY = get_global_mouse_position().y
-	
 
+func _insert_paragraph():
+	if hadActiveDragLastFrame and not ( logs.isEndText and _is_new_paragraph()):
+		set_global_position(originalPosition)
+		var index_to_insert = logs.current_position * (numberSeparators -1) + active_text_index
+		if isNewParagraph and len(logs.paragraphs) >= index_to_insert:
+			logs.paragraphs.insert(
+				index_to_insert,
+				paragraphClone
+			)
+			logs._push_new_update()
+		else:
+			if len(logs.paragraphs) > index_to_insert:
+				logs.paragraphs.insert(
+					index_to_insert,
+					paragraphClone
+				)
+				var index_to_remove = logs.current_position * (numberSeparators -1) + originalSiteIndex
+				if index_to_remove > index_to_insert:
+					index_to_remove += 1
+				#logs.paragraphs.remove(index_to_remove) ????
+			else:
+				#restore original text here:
+				logs.paragraphs[cloneIndex] = paragraphClone
+				
+				
+		logs._update_paragraphs()
+		draggableText.set_bbcode("")
+
+func _is_new_paragraph():
+	return get_node("RichTextLabel") == newParagraph
 
 func _toggle_separator(separator_index):
 	for separator in separators:
@@ -120,10 +155,15 @@ func _on_Area2D_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton:
 		if event.is_pressed():
 			dragMouse=true
-		else:
-			dragMouse=false
-	pass
-		
+		#else:
+			#dragMouse=false
+			
+func _input(event):
+	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT:
+		if not event.is_pressed():
+			if dragMouse:
+				dragMouse=false
+	
 func _end_game():
 	dragMouse=false
 	popUp.set_title("")
