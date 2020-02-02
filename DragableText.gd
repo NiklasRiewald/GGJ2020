@@ -91,7 +91,8 @@ func _process(delta):
 			)
 		hadActiveDragLastFrame = true
 	else:
-		_insert_paragraph()		
+		if draggableText.bbcode_text != "":
+			_insert_paragraph()		
 		hadActiveDragLastFrame = false
 		
 	_toggle_separators()
@@ -134,15 +135,19 @@ func _insert_paragraph():
 				)
 				print("after insertion:")
 				print(logs.paragraphs)
-				var index_to_remove = logs.current_position * (numberSeparators -1) + originalSiteIndex
+				var index_to_remove = cloneIndex
 				if index_to_remove >= index_to_insert:
 					index_to_remove += 1
+					
+				print("index to remove:")
+				print(index_to_remove)
 				logs.paragraphs.remove(index_to_remove)
 				print("after removal:")
 				print(logs.paragraphs)
 			else:
 				#restore original text here:
-				logs.paragraphs[cloneIndex] = paragraphClone
+				if not _is_new_paragraph():
+					logs.paragraphs[cloneIndex] = paragraphClone
 				
 				
 		logs._update_paragraphs()
